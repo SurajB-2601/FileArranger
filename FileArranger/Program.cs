@@ -27,13 +27,15 @@ namespace FileArranger
                         var attr = File.GetAttributes(fileName);
                         fileDict.Add(fileName, creationDate);
                     }
-
+                    Console.WriteLine("File scanning done. Found {0} file. Please enter name to be appended: ", fileDict.Count);
+                    string appender = Console.ReadLine();
+                    Console.WriteLine("Starting rename operation. Please wait");
                     int fileNumber = 1;
                     foreach (var orderedDict in fileDict.OrderBy(x => x.Value))
                     {
                         string fileName = orderedDict.Key;
                         string fullPath = Path.Combine(folderPath, fileName);
-                        string newPath = Path.Combine(folderPath, string.Format("{0:d4} - sd{1}", fileNumber++, Path.GetExtension(fullPath)));
+                        string newPath = Path.Combine(folderPath, string.Format("{0:d4} - {1}{2}", fileNumber++, appender, Path.GetExtension(fullPath)));
                         File.Move(fullPath, newPath);
                     }
                     Console.WriteLine(" Operation completed successfully \n");
@@ -69,3 +71,4 @@ namespace FileArranger
         }
     }
 }
+
